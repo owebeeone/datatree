@@ -32,23 +32,43 @@ class ThatOtherThing():
 
 Composing from the classes above one could write the following code:
 
-| <!----> |
-| --- |
-| **@dataclassclass Things(): v1: float=1.5 v2: float=2.0 v3: float=3.0 def dothings(self): thing = Thing(v1=self.v1, v2=self.v2) that\_other\_thing = ThatOtherThing(v2=self.v2, v3=self.v3) return thing, that\_other\_thingprint(Things(v2=7).dothings())** |
+```
+@dataclass
+class Things():
+    v1: float=1.5
+    v2: float=2.0
+    v3: float=3.0 
+    def dothings(self):
+        thing = Thing(v1=self.v1, v2=self.v2)
+        that_other_thing = ThatOtherThing(v2=self.v2, v3=self.v3)
+        return thing, that_other_thing
+
+print(Things(v2=7).dothings())
+```
 
 Note in this example the repetition of v1, v2 and v3 in class AB with a potentially problematic difference in the default value of v1. Notably, any values added to class Thing that need to be reflected in Things will need to be done manually.
 
 The example below uses datatree.
 
-| <!----> |
-| --- |
-| **from anchorscad.datatree import datatree, Node@datatreeclass Things(): v1: float=1.5 nodeThing: Node=Node(Thing) nodeThatOtherThing: Node=Node(ThatOtherThing) def dothings(self): thing = self.nodeThing() that\_other\_thing = self.nodeThatOtherThing() return thing, that\_other\_thingprint(Things(v2=7).dothings())** |
+```
+from anchorscad.datatree import datatree, Node
+
+@datatree
+class Things():
+    v1: float=1.5
+    nodeThing: Node=Node(Thing)
+    nodeThatOtherThing: Node=Node(ThatOtherThing)
+    def dothings(self):
+        thing = self.nodeThing()
+        that_other_thing = self.nodeThatOtherThing()
+        return thing, that_other_thing
+
+print(Things(v2=7).dothings())
+```
 
 Note the only specified value field required is v1 because it has a different default value. Both the examples above print:
 
-| <!----> |
-| --- |
-| (Thing(v1=1.5, v2=7), ThatOtherThing(v2=7, v3=3.0)) |
+```(Thing(v1=1.5, v2=7), ThatOtherThing(v2=7, v3=3.0))```
 
 Note the sharing of v2, if the injected class fields have different default values, the first default value encountered is applied.
 
