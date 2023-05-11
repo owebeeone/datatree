@@ -12,9 +12,23 @@ The impetus behind [datatree](https://bitbucket.org/owebeeone/anchorscad/src/mas
 
 For example, when building a composite of other ‘dataclass’ objects, the parameters may need to be reflected in the composite object. Assume we start with two dataclasses shown below.
 
-| <!----> |
-| --- |
-| **from dataclasses import dataclass@dataclassclass Thing(): v1: float=1.0 v2: float=2.0 def dothing(self): return self.v1 + self.v2 @dataclassclass ThatOtherThing(): v2: float=2.0 v3: float=3.0 def dothing(self): return self.v2 + self.v3** |
+```
+from dataclasses import dataclass
+
+@dataclass
+class Thing():
+    v1: float=1.0
+    v2: float=2.0
+    def dothing(self):
+        return self.v1 + self.v2
+    
+@dataclass
+class ThatOtherThing():
+    v2: float=2.0
+    v3: float=3.0
+    def dothing(self):
+        return self.v2 + self.v3
+```
 
 Composing from the classes above one could write the following code:
 
